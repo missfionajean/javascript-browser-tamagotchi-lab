@@ -18,13 +18,14 @@ const restartMessage = document.querySelector("#restart");
 /* -------------------- Arrays & Variables ------------------- */
 /* ----------------------------------------------------------- */
 
-const state = {
+const states = {
 	boredom: 0,
 	hunger: 0,
 	sleepiness: 0,
 };
 
 let gameOver = false;
+let timer;
 
 /* ----------------------------------------------------------- */
 /* ------------------------ Functions ------------------------ */
@@ -32,33 +33,38 @@ let gameOver = false;
 
 // function that holds main game
 const init = () => {
-	// timer function (arguments go here)
-	let timer = setInterval(runGame(), 2000);
+	// timer that calls function at set timed intervals
+	timer = setInterval(updateGame, 4000);
 };
 
-const runGame = () => {
-	console.log("Game is running!");
+const updateGame = () => {
+	updateStates();
+	render();
 };
 
 const render = () => {
-
-}
+	// innerText = visible only; textContent = visible + hidden
+	// textContent should be default (supported by more browsers)
+	boredomStat.textContent = states.boredom;
+	hungerStat.textContent = states.hunger;
+	sleepyStat.textContent = states.sleepiness;
+};
 
 const updateStates = () => {
-    state.boredom += Math.random()
-    state.hunger += Math.random()
-    state.sleepiness += Math.random()
-}
+	states.boredom += randomNum(0, 3);
+	states.hunger += randomNum(0, 3);
+	states.sleepiness += randomNum(0, 3);
+};
 
 const randomNum = (min, max) => {
-    // used to ensure even weighting when setting a minimum
-    let interval = (max - min) + 1
-    // this method ensures it doesn't go below min or above max
-    return Math.floor(Math.random() * interval) + min
-}
+	// used to ensure even weighting when setting a minimum
+	let interval = max - min + 1;
+	// this method ensures it doesn't go below min or above max
+	return Math.floor(Math.random() * interval) + min;
+};
 
 /* ----------------------------------------------------------- */
 /* ------- Un-Nested Event Listeners & Called Functions ------ */
 /* ----------------------------------------------------------- */
 
-init()
+init();
